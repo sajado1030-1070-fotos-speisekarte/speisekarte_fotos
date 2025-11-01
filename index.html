@@ -23,6 +23,8 @@
     figure img { width:100%; height:240px; object-fit:cover; display:block; }
     figcaption { padding:10px 12px; font-size:14px; color:#333; }
     .footer { border-top:1px solid #eee; padding:24px 20px; text-align:center; color:#777; }
+
+    /* Sidebar */
     .sidebar-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; z-index:30; }
     .sidebar { position:fixed; inset:0 auto 0 0; width:320px; max-width:86vw; background:#fff; border-right:1px solid #eee;
                transform:translateX(-100%); transition:transform .2s ease; z-index:40; display:flex; flex-direction:column; }
@@ -34,11 +36,13 @@
     .cat-list a { display:block; padding:10px 12px; margin:6px 0; text-decoration:none; color:#111; background:#fafafa; border:1px solid #eee; border-radius:10px; }
     .cat-list a:hover { background:#f4f4f4; }
     .open-backdrop { display:block; }
-    .empty { color:#666; background:#fafafa; border:1px dashed #ddd; border-radius:12px; padding:12px; text-align:center; }
+
+    /* Lightbox */
     .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; padding:20px; z-index:50; }
     .lightbox.open { display:flex; }
     .lightbox img { max-width:96vw; max-height:92vh; border-radius:12px; }
     .close-btn { position:fixed; top:14px; right:16px; font-size:28px; color:#fff; cursor:pointer; user-select:none; z-index:60; }
+    .empty { color:#666; background:#fafafa; border:1px dashed #ddd; border-radius:12px; padding:12px; text-align:center; }
   </style>
 </head>
 <body>
@@ -59,10 +63,10 @@
       <a href="#signature-dishes" onclick="closeSidebar()">Signature Dishes</a>
       <a href="#wok" onclick="closeSidebar()">Wok</a>
       <a href="#spicy-korean" onclick="closeSidebar()">Spicy Korean</a>
-      <a href="#thai-rotcurry-thai-redcurry" onclick="closeSidebar()">Thai Rotcurry/Thai Redcurry</a>
-      <a href="#ramen-udon" onclick="closeSidebar()">Ramen/Udon</a>
-      <a href="#fried-rice-noodles" onclick="closeSidebar()">Fried Rice/Noodles</a>
-      <a href="#beilagen-saucen-side-dishes-sauces" onclick="closeSidebar()">Beilagen & Saucen/Side Dishes & Sauces</a>
+      <a href="#thai-rotcurrythai-redcurry" onclick="closeSidebar()">Thai Rotcurry/Thai Redcurry</a>
+      <a href="#ramenudon" onclick="closeSidebar()">Ramen/Udon</a>
+      <a href="#fried-ricenoodles" onclick="closeSidebar()">Fried Rice/Noodles</a>
+      <a href="#beilagen-saucenside-dishes-sauces" onclick="closeSidebar()">Beilagen & Saucen/Side Dishes & Sauces</a>
       <a href="#dessert" onclick="closeSidebar()">Dessert</a>
     </nav>
   </aside>
@@ -90,10 +94,10 @@
     <section id="signature-dishes"><h2>Signature Dishes</h2><div class="grid" data-category="signature-dishes"></div></section>
     <section id="wok"><h2>Wok</h2><div class="grid" data-category="wok"></div></section>
     <section id="spicy-korean"><h2>Spicy Korean</h2><div class="grid" data-category="spicy-korean"></div></section>
-    <section id="thai-rotcurry-thai-redcurry"><h2>Thai Rotcurry/Thai Redcurry</h2><div class="grid" data-category="thai-rotcurry-thai-redcurry"></div></section>
-    <section id="ramen-udon"><h2>Ramen/Udon</h2><div class="grid" data-category="ramen-udon"></div></section>
-    <section id="fried-rice-noodles"><h2>Fried Rice/Noodles</h2><div class="grid" data-category="fried-rice-noodles"></div></section>
-    <section id="beilagen-saucen-side-dishes-sauces"><h2>Beilagen & Saucen/Side Dishes & Sauces</h2><div class="grid" data-category="beilagen-saucen-side-dishes-sauces"></div></section>
+    <section id="thai-rotcurrythai-redcurry"><h2>Thai Rotcurry/Thai Redcurry</h2><div class="grid" data-category="thai-rotcurrythai-redcurry"></div></section>
+    <section id="ramenudon"><h2>Ramen/Udon</h2><div class="grid" data-category="ramenudon"></div></section>
+    <section id="fried-ricenoodles"><h2>Fried Rice/Noodles</h2><div class="grid" data-category="fried-ricenoodles"></div></section>
+    <section id="beilagen-saucenside-dishes-sauces"><h2>Beilagen & Saucen/Side Dishes & Sauces</h2><div class="grid" data-category="beilagen-saucenside-dishes-sauces"></div></section>
     <section id="dessert"><h2>Dessert</h2><div class="grid" data-category="dessert"></div></section>
   </main>
 
@@ -105,102 +109,79 @@
   </div>
 
   <script>
-    // Category slugs (these must match your folder names under images/ or image/)
-    const CATEGORIES = [
+    // Use your EXACT folder names (from the screenshot)
+    const SLUGS = [
       "vorspeisen-appetizers","nigiri-sushi","single-luxury-plates","signature-rolls","sashimi",
       "hot-rolls-sushi-burger","classic-rolls","signature-dishes","wok","spicy-korean",
-      "thai-rotcurry-thai-redcurry","ramen-udon","fried-rice-noodles",
-      "beilagen-saucen-side-dishes-sauces","dessert"
+      "thai-rotcurrythai-redcurry","ramenudon","fried-ricenoodles",
+      "beilagen-saucenside-dishes-sauces","dessert"
     ];
 
-    // Detect base folder once: /images/ (preferred) or /image/
-    function detectBaseFolder() {
-      const hasImages = !!document.querySelector('link[href^="images/"], img[src^="images/"]'); // not reliable
-      // pragmatic default: try images/ first; if not working, we'll still try both when loading
-      return "images/";
-    }
-
-    // Try to load 1..MAX images per category. Extensions tried in order.
+    // try both base folders
+    const BASES = ["images/", "image/"];
     const MAX = 200;
     const EXTS = ["jpg","jpeg","png","webp","JPG","JPEG","PNG","WEBP"];
 
-    function titleFromFilename(name){ return name.replace(/[-_]/g," ").replace(/\.[^/.]+$/,"").trim(); }
+    function titleFromFilename(n){ return n.replace(/.*\//,"").replace(/\.[^.]+$/,"").replace(/[-_]/g," ").trim(); }
 
-    // Load a single numbered file by trying extensions until one works
-    function loadNumberedImage(base, slug, i) {
-      return new Promise(resolve => {
-        let idx = 0;
-        const img = new Image();
-        function tryNext() {
-          if (idx >= EXTS.length) { resolve(null); return; }
-          const src = base + slug + "/" + i + "." + EXTS[idx++];
-          img.onload = () => resolve(src);
-          img.onerror = tryNext;
-          img.src = src;
+    function tryLoadNumber(base, slug, i){
+      return new Promise(resolve=>{
+        let k=0, img=new Image();
+        function next(){
+          if(k>=EXTS.length){ resolve(null); return; }
+          const src = base+slug+"/"+i+"."+EXTS[k++];
+          img.onload=()=>resolve(src);
+          img.onerror=next;
+          img.src=src;
         }
-        tryNext();
+        next();
       });
     }
 
-    // For each category, attempt with base "images/" then "image/" automatically
-    async function loadCategory(slug) {
+    async function fillCategory(slug){
       const grid = document.querySelector(`.grid[data-category="${slug}"]`);
-      if (!grid) return;
+      if(!grid) return;
+      let added=0;
 
-      const bases = ["images/", "image/"];
-      let added = 0;
-
-      for (const base of bases) {
-        for (let i = 1; i <= MAX; i++) {
+      for(const base of BASES){
+        for(let i=1;i<=MAX;i++){
           // eslint-disable-next-line no-await-in-loop
-          const src = await loadNumberedImage(base, slug, i);
-          if (!src) break; // stop when the next number doesn't exist in any extension
-          const fig = document.createElement("figure");
-          const img = document.createElement("img");
-          img.loading = "lazy"; img.decoding = "async";
-          img.src = src; img.alt = titleFromFilename(src.split("/").pop());
-          img.addEventListener("click", () => openLightbox(src));
-          const cap = document.createElement("figcaption");
-          cap.textContent = titleFromFilename(src.split("/").pop());
-          fig.appendChild(img); fig.appendChild(cap);
-          grid.appendChild(fig);
+          const src = await tryLoadNumber(base, slug, i);
+          if(!src) break; // stop when next number not found
+          const fig=document.createElement("figure");
+          const img=document.createElement("img");
+          img.loading="lazy"; img.decoding="async"; img.src=src; img.alt=titleFromFilename(src);
+          img.addEventListener("click", ()=>openLightbox(src));
+          const cap=document.createElement("figcaption"); cap.textContent=titleFromFilename(src);
+          fig.appendChild(img); fig.appendChild(cap); grid.appendChild(fig);
           added++;
         }
-        if (added) break; // if we added something with this base, don't try the other base
+        if(added) break;
       }
-
-      if (!added) {
-        grid.innerHTML = '<div class="empty">Keine Bilder gefunden.</div>';
-      }
+      if(!added){ grid.innerHTML = '<div class="empty">Keine Bilder gefunden.</div>'; }
     }
 
-    function openLightbox(src) {
-      const lb = document.getElementById("lightbox");
-      const im = document.getElementById("lightboxImg");
-      im.src = src;
-      lb.classList.add("open");
-      lb.setAttribute("aria-hidden","false");
+    function openLightbox(src){
+      const lb=document.getElementById("lightbox"), im=document.getElementById("lightboxImg");
+      im.src=src; lb.classList.add("open"); lb.setAttribute("aria-hidden","false");
     }
-    document.getElementById("closeBtn").addEventListener("click", () => {
-      const lb = document.getElementById("lightbox");
-      lb.classList.remove("open");
-      lb.setAttribute("aria-hidden","true");
+    document.getElementById("closeBtn").addEventListener("click", ()=>{
+      const lb=document.getElementById("lightbox");
+      lb.classList.remove("open"); lb.setAttribute("aria-hidden","true");
     });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") document.getElementById("closeBtn").click(); });
+    document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") document.getElementById("closeBtn").click(); });
 
     // Sidebar
-    const sidebar = document.getElementById('sidebar');
-    const backdrop = document.getElementById('sidebarBackdrop');
-    const burger = document.getElementById('hamburger');
+    const sidebar=document.getElementById('sidebar'), backdrop=document.getElementById('sidebarBackdrop'), burger=document.getElementById('hamburger');
     function openSidebar(){ sidebar.classList.add('open'); backdrop.classList.add('open-backdrop'); burger.setAttribute('aria-expanded','true'); }
     function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('open-backdrop'); burger.setAttribute('aria-expanded','false'); }
-    burger.addEventListener('click', () => { sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
+    burger.addEventListener('click', ()=>{ sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
     backdrop.addEventListener('click', closeSidebar);
 
     // Init
     (async function(){
       document.getElementById("year").textContent = new Date().getFullYear();
-      for (const slug of CATEGORIES) { await loadCategory(slug); }
+      for(const slug of SLUGS){ await fillCategory(slug); }
     })();
   </script>
 </body>
