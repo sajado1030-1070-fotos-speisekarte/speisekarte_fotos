@@ -3,70 +3,155 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Speisekarte</title>
+  <title>Sajado – Speisekarte</title>
   <style>
-    :root { --max-width: 1200px; --gap: 16px; --radius: 16px; --shadow: 0 4px 18px rgba(0,0,0,.08); }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:#fff; color:#111; line-height:1.5; }
-    header { position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid #eee; }
-    .container { max-width:var(--max-width); margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:12px; }
-    .hamburger { width:36px; height:28px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; }
-    .bar { height:3px; background:#111; border-radius:2px; }
-    .logo { display:flex; align-items:center; gap:10px; }
-    .logo img { height:36px; width:auto; }
-    .logo h1 { font-size:18px; margin:0; font-weight:600; }
-    main { max-width:var(--max-width); margin:0 auto; padding:16px; }
-    section { padding:24px 0; }
-    h2 { margin:0 0 12px; font-size:24px; }
-    .grid { display:grid; gap:var(--gap); grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); align-items:start; }
-    figure { margin:0; border:1px solid #eee; border-radius:var(--radius); overflow:hidden; background:#fff; box-shadow:var(--shadow); }
-    figure img { width:100%; height:240px; object-fit:cover; display:block; }
-    figcaption { padding:10px 12px; font-size:14px; color:#333; }
-    .empty { color:#666; background:#fafafa; border:1px dashed #ddd; border-radius:12px; padding:12px; text-align:center; }
-    .footer { border-top:1px solid #eee; padding:24px 20px; text-align:center; color:#777; }
-    .sidebar-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; z-index:30; }
-    .sidebar { position:fixed; inset:0 auto 0 0; width:320px; max-width:86vw; background:#fff; border-right:1px solid #eee;
-               transform:translateX(-100%); transition:transform .2s ease; z-index:40; display:flex; flex-direction:column; }
-    .sidebar.open { transform:translateX(0); }
-    .sidebar-header { padding:16px; border-bottom:1px solid #eee; display:flex; align-items:center; gap:10px; }
-    .sidebar-header img { height:36px; }
-    .sidebar-header strong { font-size:16px; }
-    .cat-list { padding:8px; overflow:auto; }
-    .cat-list a { display:block; padding:10px 12px; margin:6px 0; text-decoration:none; color:#111; background:#fafafa; border:1px solid #eee; border-radius:10px; }
-    .cat-list a:hover { background:#f4f4f4; }
-    .open-backdrop { display:block; }
-    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; padding:20px; z-index:50; }
-    .lightbox.open { display:flex; }
-    .lightbox img { max-width:96vw; max-height:92vh; border-radius:12px; }
-    .close-btn { position:fixed; top:14px; right:16px; font-size:28px; color:#fff; cursor:pointer; user-select:none; z-index:60; }
+    /* ---------- Design Tokens ---------- */
+    :root{
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card: #ffffff;
+      --shadow: 0 6px 22px rgba(0,0,0,.08);
+      --radius: 18px;
+      --gap: 18px;
+      --container: 1200px;
+      --accent: #b3261e;      /* warmes Rot – passend zum Logo */
+      --accent-weak: #fff1f0;  /* sehr helles Rot */
+    }
+    *{ box-sizing: border-box; }
+    html,body{ margin:0; background:var(--bg); color:var(--text); font-family: ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial; line-height:1.5; }
+
+    /* ---------- Header ---------- */
+    header{
+      position: sticky; top: 0; z-index: 40;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: saturate(180%) blur(8px);
+    }
+    .container{ max-width: var(--container); margin: 0 auto; padding: 12px 18px; display:flex; align-items:center; gap:14px; }
+    .logo{ display:flex; align-items:center; gap:12px; }
+    .logo img{ height: 38px; width:auto; }
+    .logo h1{ font-size: 18px; margin:0; font-weight: 700; letter-spacing:.2px; }
+
+    /* ---------- Hamburger ---------- */
+    .hamburger{ width: 38px; height: 28px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; }
+    .bar{ height: 3px; border-radius: 3px; background: #111; transition: transform .2s ease, opacity .2s ease; }
+    .sidebar.open ~ header .bar:nth-child(1){ transform: translateY(10px) rotate(45deg); }
+    .sidebar.open ~ header .bar:nth-child(2){ opacity: 0; }
+    .sidebar.open ~ header .bar:nth-child(3){ transform: translateY(-10px) rotate(-45deg); }
+
+    main{ max-width: var(--container); margin: 0 auto; padding: 18px; }
+    section{ padding: 28px 0; scroll-margin-top: 84px; }
+    h2{ margin: 0 0 14px; font-size: 24px; font-weight: 800; letter-spacing:.2px; }
+
+    /* ---------- Card Grid ---------- */
+    .grid{
+      display: grid; gap: var(--gap);
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      align-items: start;
+    }
+    .card{
+      background: var(--card);
+      border: 2px solid #f1f1f1;            /* dezenter Bilderrahmen */
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: var(--accent-weak);
+      box-shadow: 0 10px 26px rgba(0,0,0,.10);
+    }
+    .card img{
+      display:block; width:100%; height: 280px; object-fit: cover;
+      background: #f8f8f8;
+    }
+
+    .empty{
+      color: var(--muted);
+      background: #fafafa;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      grid-column: 1/-1;
+    }
+
+    /* ---------- Sidebar (schöner) ---------- */
+    .sidebar-backdrop{ position: fixed; inset:0; background: rgba(0,0,0,.35); display:none; z-index: 30; }
+    .sidebar{ position: fixed; inset:0 auto 0 0; width: 340px; max-width: 88vw;
+      background: #fff; border-right: 1px solid var(--border);
+      box-shadow: 10px 0 28px rgba(0,0,0,.06);
+      transform: translateX(-100%); transition: transform .22s ease; z-index: 50;
+      display:flex; flex-direction: column;
+    }
+    .sidebar.open{ transform: translateX(0); }
+    .open-backdrop{ display:block; }
+
+    .sidebar-header{
+      padding: 18px; border-bottom: 1px solid var(--border);
+      display:flex; align-items:center; gap: 12px;
+      background: linear-gradient(0deg, #fff 0%, #fff 45%, var(--accent-weak) 45%, var(--accent-weak) 100%);
+    }
+    .sidebar-header img{ height: 38px; }
+    .sidebar-header .brand{ font-weight:800; font-size:16px; letter-spacing:.3px; }
+
+    .cat-list{ padding: 12px; overflow: auto; }
+    .cat-list a{
+      display:block; padding: 12px 14px; margin: 6px 0;
+      text-decoration:none; color: #111;
+      border: 1px solid var(--border); border-radius: 12px;
+      background: #fff;
+      transition: background .15s ease, border-color .15s ease, color .15s ease;
+      font-weight: 600;
+    }
+    .cat-list a:hover{ background: var(--accent-weak); border-color: #ffd9d6; }
+    .cat-list a.active{ background: var(--accent); color:#fff; border-color: var(--accent); }
+
+    /* ---------- Footer ---------- */
+    .footer{ border-top:1px solid var(--border); padding: 26px 20px; text-align:center; color: var(--muted); }
+
+    @media (min-width: 1100px){
+      /* Auf großen Screens Sidebar dauerhaft zeigen (schönes, ruhiges Layout) */
+      .sidebar{ transform: translateX(0); position: sticky; top: 0; height: 100vh; }
+      .sidebar-backdrop{ display:none !important; }
+      body{ display:grid; grid-template-columns: 340px 1fr; }
+      header{ grid-column: 1 / -1; }
+      main{ padding-left: 24px; }
+      .hamburger{ display:none; }
+    }
   </style>
 </head>
 <body>
+  <!-- Sidebar -->
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
   <aside class="sidebar" id="sidebar" aria-hidden="true">
     <div class="sidebar-header">
       <img src="assets/logo.png" alt="Logo" onerror="this.style.display='none'">
-      <strong>Kategorien</strong>
+      <div class="brand">Sajado – Kategorien</div>
     </div>
-    <nav class="cat-list" aria-label="Kategorien">
-      <a href="#vorspeisenappetizers" onclick="closeSidebar()">Vorspeisen/Appetizers</a>
-      <a href="#nigiri-sushi" onclick="closeSidebar()">Nigiri-Sushi</a>
-      <a href="#single-luxury-plates" onclick="closeSidebar()">Single & Luxury Plates</a>
-      <a href="#signature-rolls" onclick="closeSidebar()">Signature Rolls</a>
-      <a href="#sashimi" onclick="closeSidebar()">Sashimi</a>
-      <a href="#hot-rolls-sushi-burger" onclick="closeSidebar()">Hot Rolls & Sushi Burger</a>
-      <a href="#classic-rolls" onclick="closeSidebar()">Classic Rolls</a>
-      <a href="#signature-dishes" onclick="closeSidebar()">Signature Dishes</a>
-      <a href="#wok" onclick="closeSidebar()">Wok</a>
-      <a href="#spicy-korean" onclick="closeSidebar()">Spicy Korean</a>
-      <a href="#thai-rotcurrythai-redcurry" onclick="closeSidebar()">Thai Rotcurry/Thai Redcurry</a>
-      <a href="#ramenudon" onclick="closeSidebar()">Ramen/Udon</a>
-      <a href="#fried-ricenoodles" onclick="closeSidebar()">Fried Rice/Noodles</a>
-      <a href="#beilagen-saucenside-dishes-sauces" onclick="closeSidebar()">Beilagen & Saucen/Side Dishes & Sauces</a>
-      <a href="#dessert" onclick="closeSidebar()">Dessert</a>
+    <nav class="cat-list" id="catList" aria-label="Kategorien">
+      <a href="#vorspeisenappetizers">Vorspeisen/Appetizers</a>
+      <a href="#nigiri-sushi">Nigiri-Sushi</a>
+      <a href="#single-luxury-plates">Single & Luxury Plates</a>
+      <a href="#signature-rolls">Signature Rolls</a>
+      <a href="#sashimi">Sashimi</a>
+      <a href="#hot-rolls-sushi-burger">Hot Rolls & Sushi Burger</a>
+      <a href="#classic-rolls">Classic Rolls</a>
+      <a href="#signature-dishes">Signature Dishes</a>
+      <a href="#wok">Wok</a>
+      <a href="#spicy-korean">Spicy Korean</a>
+      <a href="#thai-rotcurrythai-redcurry">Thai Rotcurry/Thai Redcurry</a>
+      <a href="#ramenudon">Ramen/Udon</a>
+      <a href="#fried-ricenoodles">Fried Rice/Noodles</a>
+      <a href="#beilagen-saucenside-dishes-sauces">Beilagen & Saucen/Side Dishes & Sauces</a>
+      <a href="#dessert">Dessert</a>
     </nav>
   </aside>
 
+  <!-- Header -->
   <header>
     <div class="container">
       <div class="hamburger" id="hamburger" aria-label="Menü öffnen" aria-controls="sidebar" aria-expanded="false">
@@ -74,13 +159,14 @@
       </div>
       <div class="logo">
         <img src="assets/logo.png" alt="Logo" onerror="this.style.display='none'">
-        <h1>Speisekarte</h1>
+        <h1>Sajado – Speisekarte</h1>
       </div>
     </div>
   </header>
 
+  <!-- Content -->
   <main>
-    <!-- Sektionen sind statisch, Inhalte werden aus Manifests befüllt -->
+    <!-- Sektionen (ohne Captions) -->
     <section id="vorspeisenappetizers"><h2>Vorspeisen/Appetizers</h2><div class="grid" data-category="vorspeisenappetizers"></div></section>
     <section id="nigiri-sushi"><h2>Nigiri-Sushi</h2><div class="grid" data-category="nigiri-sushi"></div></section>
     <section id="single-luxury-plates"><h2>Single & Luxury Plates</h2><div class="grid" data-category="single-luxury-plates"></div></section>
@@ -100,13 +186,8 @@
 
   <div class="footer">© <span id="year"></span> — Alle Rechte vorbehalten.</div>
 
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <div class="close-btn" id="closeBtn" aria-label="Schließen">×</div>
-    <img id="lightboxImg" alt="Bild" />
-  </div>
-
   <script>
-    // Kategorien exakt nach deinen Ordnernamen
+    // Kategorien exakt nach deinen Ordnernamen (mit 'vorspeisenappetizers')
     const CATEGORIES = [
       "vorspeisenappetizers","nigiri-sushi","single-luxury-plates","signature-rolls","sashimi",
       "hot-rolls-sushi-burger","classic-rolls","signature-dishes","wok","spicy-korean",
@@ -114,80 +195,73 @@
       "beilagen-saucenside-dishes-sauces","dessert"
     ];
 
-    // Manifeste werden unter image/<slug>/manifest.json erwartet
-    async function loadManifest(slug) {
+    // Manifest-Lader (image/<slug>/manifest.json)
+    async function loadManifest(slug){
       const url = `image/${slug}/manifest.json`;
-      try {
+      try{
         const res = await fetch(url, { cache: "no-store" });
-        if (!res.ok) { console.warn("Manifest fehlt/404:", url); return null; }
+        if(!res.ok) return null;
         const data = await res.json();
-        if (!data || !Array.isArray(data.images)) { console.warn("Manifest ohne images[]:", url, data); return null; }
-        return data.images;
-      } catch (e) {
-        console.error("Manifest Fehler:", url, e);
-        return null;
-      }
+        return Array.isArray(data.images) ? data.images : null;
+      }catch{ return null; }
     }
 
-    function titleFromFilename(name) {
-      return name.replace(/\\.[^.]+$/, "").replace(/[-_]/g, " ").replace(/,/g, " ").trim();
-    }
-
-    function addFigure(grid, src, file) {
-      const fig = document.createElement("figure");
+    // Bildkarte ohne Caption/Lightbox
+    function addCard(grid, src){
+      const card = document.createElement("div");
+      card.className = "card";
       const img = document.createElement("img");
-      img.loading = "lazy"; img.decoding = "async";
-      img.src = src; img.alt = titleFromFilename(file);
-      img.addEventListener("click", () => openLightbox(src));
-      const cap = document.createElement("figcaption");
-      cap.textContent = titleFromFilename(file);
-      fig.appendChild(img); fig.appendChild(cap);
-      grid.appendChild(fig);
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.src = src;
+      img.alt = "";
+      card.appendChild(img);
+      grid.appendChild(card);
     }
 
-    async function init() {
+    // Aktiven Link in Sidebar beim Scroll markieren (schöner UX)
+    function observeSections(){
+      const items = Array.from(document.querySelectorAll(".cat-list a"));
+      const map = new Map(items.map(a => [a.getAttribute("href").slice(1), a]));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if(e.isIntersecting){
+            items.forEach(i => i.classList.remove("active"));
+            const a = map.get(e.target.id);
+            if(a) a.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+      document.querySelectorAll("main > section").forEach(sec => io.observe(sec));
+    }
+
+    async function init(){
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      for (const slug of CATEGORIES) {
+      for(const slug of CATEGORIES){
         const grid = document.querySelector(`.grid[data-category="${slug}"]`);
         const files = await loadManifest(slug);
-        if (!files || !files.length) {
+        if(!files || !files.length){
           grid.innerHTML = '<div class="empty">Keine Bilder gefunden.</div>';
           continue;
         }
-        for (const file of files) {
-          const src = `image/${slug}/${file}`;
-          addFigure(grid, src, file);
+        for(const f of files){
+          addCard(grid, `image/${slug}/${f}`);
         }
       }
+      observeSections();
     }
 
-    function openLightbox(src) {
-      const lb = document.getElementById("lightbox");
-      const im = document.getElementById("lightboxImg");
-      im.src = src;
-      lb.classList.add("open");
-      lb.setAttribute("aria-hidden","false");
-    }
-
-    document.getElementById("closeBtn").addEventListener("click", () => {
-      const lb = document.getElementById("lightbox");
-      lb.classList.remove("open");
-      lb.setAttribute("aria-hidden","true");
-    });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") document.getElementById("closeBtn").click(); });
-
-    // Sidebar
+    // Sidebar Toggle
     const sidebar = document.getElementById('sidebar');
     const backdrop = document.getElementById('sidebarBackdrop');
     const burger = document.getElementById('hamburger');
     function openSidebar(){ sidebar.classList.add('open'); backdrop.classList.add('open-backdrop'); burger.setAttribute('aria-expanded','true'); }
     function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('open-backdrop'); burger.setAttribute('aria-expanded','false'); }
-    burger.addEventListener('click', () => { sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
-    backdrop.addEventListener('click', closeSidebar);
+    burger && burger.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+    backdrop && backdrop.addEventListener('click', closeSidebar);
 
     init();
   </script>
 </body>
 </html>
-
