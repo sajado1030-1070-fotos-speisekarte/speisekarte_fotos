@@ -13,36 +13,41 @@
       --card:#fff;
       --shadow:0 6px 22px rgba(0,0,0,.08);
       --radius:18px;
-      --gap:18px;
+      --gap:16px;
       --container:1200px;
       --accent:#b3261e;
       --accent-weak:#fff1f0;
     }
     *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.5;}
 
     /* Header */
     header{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--border);backdrop-filter:saturate(180%) blur(8px);}
-    .container{max-width:var(--container);margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:14px;}
+    .container{max-width:var(--container);margin:0 auto;padding:10px 14px;display:flex;align-items:center;gap:12px;}
     .logo{display:flex;align-items:center;gap:12px;}
-    .logo img{height:38px;width:auto;}
-    .logo h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.2px;}
-    .hamburger{width:38px;height:28px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;}
+    .logo img{height:56px;width:auto;}             /* größer */
+    .logo h1{font-size:clamp(16px,2vw,20px);margin:0;font-weight:800;letter-spacing:.2px;}
+    .hamburger{width:40px;height:28px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;touch-action:manipulation;}
     .bar{height:3px;border-radius:3px;background:#111;}
-    main{max-width:var(--container);margin:0 auto;padding:18px;}
-    section{padding:28px 0;scroll-margin-top:84px;}
-    h2{margin:0 0 14px;font-size:24px;font-weight:800;letter-spacing:.2px;}
+
+    main{max-width:var(--container);margin:0 auto;padding:16px;}
+    section{padding:24px 0;scroll-margin-top:86px;}
+    h2{margin:0 0 12px;font-size:clamp(18px,2.2vw,24px);font-weight:800;letter-spacing:.2px;}
 
     /* Grid */
     .grid{
       display:grid;
       gap:var(--gap);
-      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
       align-items:start;
+    }
+    @media (min-width:620px){
+      .grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));}
     }
     .card{
       background:var(--card);
-      border:2px solid #f1f1f1;
+      border:2px solid #f1f1f1;              /* Bilderrahmen */
       border-radius:var(--radius);
       overflow:hidden;
       box-shadow:var(--shadow);
@@ -50,7 +55,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:10px;
+      padding:10px;                           /* wird bei kleinen Bildern optisch zum breiteren Rahmen */
     }
     .card:hover{
       transform:translateY(-2px);
@@ -61,11 +66,15 @@
       display:block;
       width:100%;
       height:auto;
-      max-height:500px;
-      object-fit:contain;
+      max-height:420px;                       /* mobil kompakter */
+      object-fit:contain;                     /* Bild vollständig anzeigen */
       background:#fff;
       border-radius:12px;
     }
+    @media (min-width:900px){
+      .card img{max-height:500px;}           /* Desktop etwas höher */
+    }
+
     .empty{
       color:var(--muted);
       background:#fafafa;
@@ -78,28 +87,33 @@
 
     /* Sidebar */
     .sidebar-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;z-index:30;}
-    .sidebar{position:fixed;inset:0 auto 0 0;width:340px;max-width:88vw;background:#fff;border-right:1px solid var(--border);box-shadow:10px 0 28px rgba(0,0,0,.06);transform:translateX(-100%);transition:transform .22s ease;z-index:50;display:flex;flex-direction:column;}
+    .sidebar{position:fixed;inset:0 auto 0 0;width:330px;max-width:88vw;background:#fff;border-right:1px solid var(--border);box-shadow:10px 0 28px rgba(0,0,0,.06);transform:translateX(-100%);transition:transform .22s ease;z-index:50;display:flex;flex-direction:column;}
     .sidebar.open{transform:translateX(0);}
     .open-backdrop{display:block;}
-    .sidebar-header{padding:18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:linear-gradient(0deg,#fff 0%,#fff 45%,var(--accent-weak) 45%,var(--accent-weak) 100%);}
+    .sidebar-header{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:linear-gradient(0deg,#fff 0%,#fff 45%,var(--accent-weak) 45%,var(--accent-weak) 100%);}
     .sidebar-header img{height:38px;}
     .sidebar-header .brand{font-weight:800;font-size:16px;letter-spacing:.3px;}
-    .cat-list{padding:12px;overflow:auto;}
-    .cat-list a{display:block;padding:12px 14px;margin:6px 0;text-decoration:none;color:#111;border:1px solid var(--border);border-radius:12px;background:#fff;transition:background .15s ease,border-color .15s ease,color .15s ease;font-weight:600;}
+    .cat-list{padding:10px;overflow:auto;}
+    .cat-list a{display:block;padding:14px 14px;margin:6px 0;text-decoration:none;color:#111;border:1px solid var(--border);border-radius:12px;background:#fff;transition:background .15s ease,border-color .15s ease,color .15s ease;font-weight:600;}
     .cat-list a:hover{background:var(--accent-weak);border-color:#ffd9d6;}
     .cat-list a.active{background:var(--accent);color:#fff;border-color:var(--accent);}
-    .footer{border-top:1px solid var(--border);padding:26px 20px;text-align:center;color:var(--muted);}
+
+    .footer{border-top:1px solid var(--border);padding:22px 16px;text-align:center;color:var(--muted);}
+
+    /* Desktop-Layout: Sidebar sticky */
     @media(min-width:1100px){
       .sidebar{transform:translateX(0);position:sticky;top:0;height:100vh;}
       .sidebar-backdrop{display:none!important;}
-      body{display:grid;grid-template-columns:340px 1fr;}
+      body{display:grid;grid-template-columns:330px 1fr;}
       header{grid-column:1/-1;}
       main{padding-left:24px;}
       .hamburger{display:none;}
+      .logo img{height:48px;}                 /* Desktop leicht kleiner */
     }
   </style>
 </head>
 <body>
+  <!-- Sidebar -->
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -120,18 +134,25 @@
       <a href="#thai-rotcurrythai-redcurry">Thai Rotcurry/Thai Redcurry</a>
       <a href="#ramenudon">Ramen/Udon</a>
       <a href="#fried-ricenoodles">Fried Rice/Noodles</a>
-      <a href="#beilagen-saucenside-dishes-sauces">Beilagen & Saucen/Side Dishes & Sauces</a>
+      <!-- Beilagen & Saucen ausgeblendet -->
       <a href="#dessert">Dessert</a>
     </nav>
   </aside>
 
+  <!-- Header -->
   <header>
     <div class="container">
-      <div class="hamburger" id="hamburger"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-      <div class="logo"><img src="assets/logo.png" alt="Logo"><h1>Sajado – Speisekarte</h1></div>
+      <div class="hamburger" id="hamburger" aria-label="Menü öffnen" aria-controls="sidebar" aria-expanded="false">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <div class="logo">
+        <img src="assets/logo.png" alt="Logo">
+        <h1>Sajado – Speisekarte</h1>
+      </div>
     </div>
   </header>
 
+  <!-- Content -->
   <main>
     <section id="vorspeisenappetizers"><h2>Vorspeisen/Appetizers</h2><div class="grid" data-category="vorspeisenappetizers"></div></section>
     <section id="nigiri-sushi"><h2>Nigiri-Sushi</h2><div class="grid" data-category="nigiri-sushi"></div></section>
@@ -146,60 +167,105 @@
     <section id="thai-rotcurrythai-redcurry"><h2>Thai Rotcurry/Thai Redcurry</h2><div class="grid" data-category="thai-rotcurrythai-redcurry"></div></section>
     <section id="ramenudon"><h2>Ramen/Udon</h2><div class="grid" data-category="ramenudon"></div></section>
     <section id="fried-ricenoodles"><h2>Fried Rice/Noodles</h2><div class="grid" data-category="fried-ricenoodles"></div></section>
-    <section id="beilagen-saucenside-dishes-sauces"><h2>Beilagen & Saucen/Side Dishes & Sauces</h2><div class="grid" data-category="beilagen-saucenside-dishes-sauces"></div></section>
+    <!-- Beilagen & Saucen Sektion ausgeblendet -->
     <section id="dessert"><h2>Dessert</h2><div class="grid" data-category="dessert"></div></section>
   </main>
 
   <div class="footer">© <span id="year"></span> — Alle Rechte vorbehalten.</div>
 
   <script>
+    // Kategorien (ohne "beilagen-saucenside-dishes-sauces")
     const CATEGORIES = [
       "vorspeisenappetizers","nigiri-sushi","single-luxury-plates","signature-rolls","sashimi",
       "hot-rolls-sushi-burger","classic-rolls","signature-dishes","wok","spicy-korean",
-      "thai-rotcurrythai-redcurry","ramenudon","fried-ricenoodles",
-      "beilagen-saucenside-dishes-sauces","dessert"
+      "thai-rotcurrythai-redcurry","ramenudon","fried-ricenoodles","dessert"
     ];
 
     async function loadManifest(slug){
-      const url=`image/${slug}/manifest.json`;
+      const url = `image/${slug}/manifest.json`;
       try{
-        const r=await fetch(url,{cache:"no-store"});
-        if(!r.ok)return null;
-        const d=await r.json();
-        return Array.isArray(d.images)?d.images:null;
-      }catch{return null;}
+        const r = await fetch(url, { cache: "no-store" });
+        if(!r.ok) return null;
+        const d = await r.json();
+        return Array.isArray(d.images) ? d.images : null;
+      }catch{ return null; }
     }
 
-    function addCard(grid,src){
-      const c=document.createElement("div");
-      c.className="card";
-      const img=document.createElement("img");
-      img.loading="lazy";
-      img.decoding="async";
-      img.src=src;
-      img.alt="";
+    function addCard(grid, src){
+      const c = document.createElement("div");
+      c.className = "card";
+      const img = document.createElement("img");
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.src = src;
+      img.alt = "";
       c.appendChild(img);
       grid.appendChild(c);
     }
 
+    // Smooth Scroll + Sidebar-Autoclose bei Klick (mobil)
+    function setupSidebarLinks(){
+      const links = document.querySelectorAll(".cat-list a");
+      links.forEach(a=>{
+        a.addEventListener("click", (e)=>{
+          // Smooth scroll mit Offset (Sticky-Header)
+          e.preventDefault();
+          const id = a.getAttribute("href").slice(1);
+          const target = document.getElementById(id);
+          if(target){
+            const y = target.getBoundingClientRect().top + window.pageYOffset - 80; // ~Headerhöhe
+            window.scrollTo({ top: y, behavior: "smooth" });
+          }
+          // Sidebar schließen auf mobilen Geräten
+          closeSidebar();
+          // Active-State setzen
+          links.forEach(x=>x.classList.remove("active"));
+          a.classList.add("active");
+        }, { passive: true });
+      });
+    }
+
+    // Optional: Active-State beim Scrollen aktualisieren
+    function observeSections(){
+      const items = Array.from(document.querySelectorAll(".cat-list a"));
+      const map = new Map(items.map(a => [a.getAttribute("href").slice(1), a]));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if(e.isIntersecting){
+            items.forEach(i => i.classList.remove("active"));
+            const link = map.get(e.target.id);
+            if(link) link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+      document.querySelectorAll("main > section").forEach(sec => io.observe(sec));
+    }
+
     async function init(){
-      document.getElementById("year").textContent=new Date().getFullYear();
+      document.getElementById("year").textContent = new Date().getFullYear();
       for(const slug of CATEGORIES){
-        const grid=document.querySelector(`.grid[data-category="${slug}"]`);
-        const files=await loadManifest(slug);
-        if(!files||!files.length){grid.innerHTML='<div class="empty">Keine Bilder gefunden.</div>';continue;}
-        for(const f of files)addCard(grid,`image/${slug}/${f}`);
+        const grid = document.querySelector(`.grid[data-category="${slug}"]`);
+        const files = await loadManifest(slug);
+        if(!files || !files.length){
+          grid.innerHTML = '<div class="empty">Keine Bilder gefunden.</div>';
+          continue;
+        }
+        for(const f of files){
+          addCard(grid, `image/${slug}/${f}`);
+        }
       }
+      setupSidebarLinks();
+      observeSections();
     }
 
     // Sidebar logic
-    const sidebar=document.getElementById('sidebar');
-    const backdrop=document.getElementById('sidebarBackdrop');
-    const burger=document.getElementById('hamburger');
-    function openSidebar(){sidebar.classList.add('open');backdrop.classList.add('open-backdrop');}
-    function closeSidebar(){sidebar.classList.remove('open');backdrop.classList.remove('open-backdrop');}
-    burger&&burger.addEventListener('click',()=>sidebar.classList.contains('open')?closeSidebar():openSidebar());
-    backdrop&&backdrop.addEventListener('click',closeSidebar);
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    const burger = document.getElementById('hamburger');
+    function openSidebar(){ sidebar.classList.add('open'); backdrop.classList.add('open-backdrop'); burger?.setAttribute('aria-expanded','true'); }
+    function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('open-backdrop'); burger?.setAttribute('aria-expanded','false'); }
+    burger?.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar(), { passive: true });
+    backdrop?.addEventListener('click', closeSidebar, { passive: true });
 
     init();
   </script>
