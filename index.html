@@ -8,23 +8,21 @@
     :root { --max-width: 1200px; --gap: 16px; --radius: 16px; --shadow: 0 4px 18px rgba(0,0,0,0.08); }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:#fff; color:#111; line-height:1.5; }
-    header { position: sticky; top: 0; z-index: 20; background:#fff; border-bottom:1px solid #eee; }
-    .container { max-width: var(--max-width); margin: 0 auto; padding: 10px 16px; display:flex; align-items:center; gap:12px; }
+    header { position: sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid #eee; }
+    .container { max-width: var(--max-width); margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:12px; }
     .hamburger { width:36px; height:28px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; }
     .bar { height:3px; background:#111; border-radius:2px; }
     .logo { display:flex; align-items:center; gap:10px; }
     .logo img { height:36px; width:auto; }
     .logo h1 { font-size:18px; margin:0; font-weight:600; }
-    main { max-width: var(--max-width); margin: 0 auto; padding: 16px; }
-    section { padding: 24px 0; }
+    main { max-width: var(--max-width); margin:0 auto; padding:16px; }
+    section { padding:24px 0; }
     h2 { margin:0 0 12px; font-size:24px; }
-    .grid { display:grid; gap:var(--gap); grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); align-items:start; }
-    figure { margin:0; border:1px solid #eee; border-radius:var(--radius); overflow:hidden; background:#fff; box-shadow: var(--shadow); }
+    .grid { display:grid; gap:var(--gap); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); align-items:start; }
+    figure { margin:0; border:1px solid #eee; border-radius:var(--radius); overflow:hidden; background:#fff; box-shadow:var(--shadow); }
     figure img { width:100%; height:240px; object-fit:cover; display:block; }
     figcaption { padding:10px 12px; font-size:14px; color:#333; }
     .footer { border-top:1px solid #eee; padding:24px 20px; text-align:center; color:#777; }
-
-    /* Sidebar */
     .sidebar-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; z-index:30; }
     .sidebar { position:fixed; inset:0 auto 0 0; width:320px; max-width:86vw; background:#fff; border-right:1px solid #eee;
                transform:translateX(-100%); transition:transform .2s ease; z-index:40; display:flex; flex-direction:column; }
@@ -36,8 +34,7 @@
     .cat-list a { display:block; padding:10px 12px; margin:6px 0; text-decoration:none; color:#111; background:#fafafa; border:1px solid #eee; border-radius:10px; }
     .cat-list a:hover { background:#f4f4f4; }
     .open-backdrop { display:block; }
-
-    /* Lightbox */
+    .empty { color:#666; background:#fafafa; border:1px dashed #ddd; border-radius:12px; padding:12px; text-align:center; }
     .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; padding:20px; z-index:50; }
     .lightbox.open { display:flex; }
     .lightbox img { max-width:96vw; max-height:92vh; border-radius:12px; }
@@ -52,21 +49,21 @@
       <strong>Kategorien</strong>
     </div>
     <nav class="cat-list" aria-label="Kategorien">
-      <a href="#vorspeisen">Vorspeisen/Appetizers</a>
-      <a href="#nigiri-sushi">Nigiri-Sushi</a>
-      <a href="#single-luxury-plates">Single & Luxury Plates</a>
-      <a href="#signature-rolls">Signature Rolls</a>
-      <a href="#sashimi">Sashimi</a>
-      <a href="#hot-rolls-sushi-burger">Hot Rolls & Sushi Burger</a>
-      <a href="#classic-rolls">Classic Rolls</a>
-      <a href="#signature-dishes">Signature Dishes</a>
-      <a href="#wok">Wok</a>
-      <a href="#spicy-korean">Spicy Korean</a>
-      <a href="#thai-rotcurry">Thai Rotcurry/Thai Redcurry</a>
-      <a href="#ramen-udon">Ramen/Udon</a>
-      <a href="#fried-rice-noodles">Fried Rice/Noodles</a>
-      <a href="#beilagen-saucen-side-dishes-sauces">Beilagen & Saucen/Side Dishes & Sauces</a>
-      <a href="#dessert">Dessert</a>
+      <a href="#vorspeisen-appetizers" onclick="closeSidebar()">Vorspeisen/Appetizers</a>
+      <a href="#nigiri-sushi" onclick="closeSidebar()">Nigiri-Sushi</a>
+      <a href="#single-luxury-plates" onclick="closeSidebar()">Single & Luxury Plates</a>
+      <a href="#signature-rolls" onclick="closeSidebar()">Signature Rolls</a>
+      <a href="#sashimi" onclick="closeSidebar()">Sashimi</a>
+      <a href="#hot-rolls-sushi-burger" onclick="closeSidebar()">Hot Rolls & Sushi Burger</a>
+      <a href="#classic-rolls" onclick="closeSidebar()">Classic Rolls</a>
+      <a href="#signature-dishes" onclick="closeSidebar()">Signature Dishes</a>
+      <a href="#wok" onclick="closeSidebar()">Wok</a>
+      <a href="#spicy-korean" onclick="closeSidebar()">Spicy Korean</a>
+      <a href="#thai-rotcurry-thai-redcurry" onclick="closeSidebar()">Thai Rotcurry/Thai Redcurry</a>
+      <a href="#ramen-udon" onclick="closeSidebar()">Ramen/Udon</a>
+      <a href="#fried-rice-noodles" onclick="closeSidebar()">Fried Rice/Noodles</a>
+      <a href="#beilagen-saucen-side-dishes-sauces" onclick="closeSidebar()">Beilagen & Saucen/Side Dishes & Sauces</a>
+      <a href="#dessert" onclick="closeSidebar()">Dessert</a>
     </nav>
   </aside>
 
@@ -83,7 +80,7 @@
   </header>
 
   <main>
-    <section id="vorspeisen"><h2>Vorspeisen/Appetizers</h2><div class="grid" data-category="vorspeisen"></div></section>
+    <section id="vorspeisen-appetizers"><h2>Vorspeisen/Appetizers</h2><div class="grid" data-category="vorspeisen-appetizers"></div></section>
     <section id="nigiri-sushi"><h2>Nigiri-Sushi</h2><div class="grid" data-category="nigiri-sushi"></div></section>
     <section id="single-luxury-plates"><h2>Single & Luxury Plates</h2><div class="grid" data-category="single-luxury-plates"></div></section>
     <section id="signature-rolls"><h2>Signature Rolls</h2><div class="grid" data-category="signature-rolls"></div></section>
@@ -93,7 +90,7 @@
     <section id="signature-dishes"><h2>Signature Dishes</h2><div class="grid" data-category="signature-dishes"></div></section>
     <section id="wok"><h2>Wok</h2><div class="grid" data-category="wok"></div></section>
     <section id="spicy-korean"><h2>Spicy Korean</h2><div class="grid" data-category="spicy-korean"></div></section>
-    <section id="thai-rotcurry"><h2>Thai Rotcurry/Thai Redcurry</h2><div class="grid" data-category="thai-rotcurry"></div></section>
+    <section id="thai-rotcurry-thai-redcurry"><h2>Thai Rotcurry/Thai Redcurry</h2><div class="grid" data-category="thai-rotcurry-thai-redcurry"></div></section>
     <section id="ramen-udon"><h2>Ramen/Udon</h2><div class="grid" data-category="ramen-udon"></div></section>
     <section id="fried-rice-noodles"><h2>Fried Rice/Noodles</h2><div class="grid" data-category="fried-rice-noodles"></div></section>
     <section id="beilagen-saucen-side-dishes-sauces"><h2>Beilagen & Saucen/Side Dishes & Sauces</h2><div class="grid" data-category="beilagen-saucen-side-dishes-sauces"></div></section>
@@ -108,119 +105,86 @@
   </div>
 
   <script>
-    // Categories with multiple possible folder aliases to match your repo
+    // Category slugs (these must match your folder names under images/ or image/)
     const CATEGORIES = [
-      { name:"Vorspeisen/Appetizers", id:"vorspeisen", aliases:["vorspeisen-appetizers","vorspeisen","appetizers"] },
-      { name:"Nigiri-Sushi", id:"nigiri-sushi", aliases:["nigiri-sushi"] },
-      { name:"Single & Luxury Plates", id:"single-luxury-plates", aliases:["single-luxury-plates","single","luxury-plates"] },
-      { name:"Signature Rolls", id:"signature-rolls", aliases:["signature-rolls"] },
-      { name:"Sashimi", id:"sashimi", aliases:["sashimi"] },
-      { name:"Hot Rolls & Sushi Burger", id:"hot-rolls-sushi-burger", aliases:["hot-rolls-sushi-burger","sushi-burger","hot-rolls"] },
-      { name:"Classic Rolls", id:"classic-rolls", aliases:["classic-rolls"] },
-      { name:"Signature Dishes", id:"signature-dishes", aliases:["signature-dishes"] },
-      { name:"Wok", id:"wok", aliases:["wok"] },
-      { name:"Spicy Korean", id:"spicy-korean", aliases:["spicy-korean","korean"] },
-      { name:"Thai Rotcurry/Thai Redcurry", id:"thai-rotcurry", aliases:["thai-rotcurry-thai-redcurry","thai-rotcurry","thai-redcurry","thai-red-curry"] },
-      { name:"Ramen/Udon", id:"ramen-udon", aliases:["ramen-udon","ramen","udon","ramen_udon"] },
-      { name:"Fried Rice/Noodles", id:"fried-rice-noodles", aliases:["fried-rice-noodles","fried-rice","fried-noodles","friedrice-noodles"] },
-      { name:"Beilagen & Saucen/Side Dishes & Sauces", id:"beilagen-saucen-side-dishes-sauces", aliases:["beilagen-saucen-side-dishes-sauces"] },
-      { name:"Dessert", id:"dessert", aliases:["dessert"] }
+      "vorspeisen-appetizers","nigiri-sushi","single-luxury-plates","signature-rolls","sashimi",
+      "hot-rolls-sushi-burger","classic-rolls","signature-dishes","wok","spicy-korean",
+      "thai-rotcurry-thai-redcurry","ramen-udon","fried-rice-noodles",
+      "beilagen-saucen-side-dishes-sauces","dessert"
     ];
 
-    // Detect base folder: /images/ or /image/
-    async function detectBase() {
-      const candidates = ["images/", "image/"];
-      for (const base of candidates) {
-        try { const res = await fetch(base, { method:"HEAD" }); if (res.ok) return base; } catch(e) {}
-      }
+    // Detect base folder once: /images/ (preferred) or /image/
+    function detectBaseFolder() {
+      const hasImages = !!document.querySelector('link[href^="images/"], img[src^="images/"]'); // not reliable
+      // pragmatic default: try images/ first; if not working, we'll still try both when loading
       return "images/";
     }
 
-    function titleFromFilename(name) {
-      return name.replace(/[-_]/g, " ").replace(/\.[^/.]+$/, "").trim();
+    // Try to load 1..MAX images per category. Extensions tried in order.
+    const MAX = 200;
+    const EXTS = ["jpg","jpeg","png","webp","JPG","JPEG","PNG","WEBP"];
+
+    function titleFromFilename(name){ return name.replace(/[-_]/g," ").replace(/\.[^/.]+$/,"").trim(); }
+
+    // Load a single numbered file by trying extensions until one works
+    function loadNumberedImage(base, slug, i) {
+      return new Promise(resolve => {
+        let idx = 0;
+        const img = new Image();
+        function tryNext() {
+          if (idx >= EXTS.length) { resolve(null); return; }
+          const src = base + slug + "/" + i + "." + EXTS[idx++];
+          img.onload = () => resolve(src);
+          img.onerror = tryNext;
+          img.src = src;
+        }
+        tryNext();
+      });
     }
 
-    async function headExists(url) {
-      try { const res = await fetch(url, { method: "HEAD" }); return res.ok; }
-      catch(e) { return false; }
-    }
+    // For each category, attempt with base "images/" then "image/" automatically
+    async function loadCategory(slug) {
+      const grid = document.querySelector(`.grid[data-category="${slug}"]`);
+      if (!grid) return;
 
-    async function resolveFolder(base, aliases) {
-      // Check which alias folder actually exists by probing 1.jpg.. with common extensions
-      const exts = ["jpg","jpeg","png","webp","gif","JPG","JPEG","PNG","WEBP","GIF"];
-      for (const slug of aliases) {
-        // quick probe: check the folder by trying 1.<ext>
-        for (const ext of exts) {
-          const test = base + slug + "/1." + ext;
+      const bases = ["images/", "image/"];
+      let added = 0;
+
+      for (const base of bases) {
+        for (let i = 1; i <= MAX; i++) {
           // eslint-disable-next-line no-await-in-loop
-          if (await headExists(test)) return slug;
+          const src = await loadNumberedImage(base, slug, i);
+          if (!src) break; // stop when the next number doesn't exist in any extension
+          const fig = document.createElement("figure");
+          const img = document.createElement("img");
+          img.loading = "lazy"; img.decoding = "async";
+          img.src = src; img.alt = titleFromFilename(src.split("/").pop());
+          img.addEventListener("click", () => openLightbox(src));
+          const cap = document.createElement("figcaption");
+          cap.textContent = titleFromFilename(src.split("/").pop());
+          fig.appendChild(img); fig.appendChild(cap);
+          grid.appendChild(fig);
+          added++;
         }
-        // or a manifest.json present
-        try {
-          const m = await fetch(base + slug + "/manifest.json", { method:"HEAD" });
-          if (m.ok) return slug;
-        } catch(e) {}
+        if (added) break; // if we added something with this base, don't try the other base
       }
-      return null;
-    }
 
-    async function loadList(base, slug) {
-      // 1) Try manifest.json
-      try {
-        const res = await fetch(base + slug + "/manifest.json");
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data.images) && data.images.length) return data.images;
-        }
-      } catch (e) {}
-
-      // 2) Fallback: probe files 1..200 with common extensions
-      const exts = ["jpg","jpeg","png","webp","gif","JPG","JPEG","PNG","WEBP","GIF"];
-      const files = [];
-      for (let i=1;i<=200;i++) {
-        let found = false;
-        for (const ext of exts) {
-          const f = i + "." + ext;
-          const url = base + slug + "/" + f;
-          // eslint-disable-next-line no-await-in-loop
-          if (await headExists(url)) { files.push(f); found = true; break; }
-        }
-        if (!found) break;
-      }
-      return files;
-    }
-
-    function addFigure(grid, src, file, name) {
-      const fig = document.createElement("figure");
-      const img = document.createElement("img");
-      img.loading = "lazy"; img.decoding = "async"; img.src = src; img.alt = titleFromFilename(file)||name;
-      img.addEventListener("click", () => openLightbox(src));
-      const cap = document.createElement("figcaption"); cap.textContent = titleFromFilename(file);
-      fig.appendChild(img); fig.appendChild(cap); grid.appendChild(fig);
-    }
-
-    async function init() {
-      document.getElementById("year").textContent = new Date().getFullYear();
-      const BASE = await detectBase();
-
-      for (const c of CATEGORIES) {
-        const grid = document.querySelector(`.grid[data-category="${c.id}"]`);
-        const folder = await resolveFolder(BASE, c.aliases);
-        if (!folder) { grid.innerHTML = '<div class="empty">Keine Bilder gefunden (Ordner nicht gefunden).</div>'; continue; }
-        const list = await loadList(BASE, folder);
-        if (!list.length) { grid.innerHTML = '<div class="empty">Keine Bilder gefunden.</div>'; continue; }
-        for (const file of list) addFigure(grid, BASE + folder + "/" + file, file, c.name);
+      if (!added) {
+        grid.innerHTML = '<div class="empty">Keine Bilder gefunden.</div>';
       }
     }
 
     function openLightbox(src) {
       const lb = document.getElementById("lightbox");
       const im = document.getElementById("lightboxImg");
-      im.src = src; lb.classList.add("open"); lb.setAttribute("aria-hidden","false");
+      im.src = src;
+      lb.classList.add("open");
+      lb.setAttribute("aria-hidden","false");
     }
     document.getElementById("closeBtn").addEventListener("click", () => {
       const lb = document.getElementById("lightbox");
-      lb.classList.remove("open"); lb.setAttribute("aria-hidden","true");
+      lb.classList.remove("open");
+      lb.setAttribute("aria-hidden","true");
     });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") document.getElementById("closeBtn").click(); });
 
@@ -228,12 +192,16 @@
     const sidebar = document.getElementById('sidebar');
     const backdrop = document.getElementById('sidebarBackdrop');
     const burger = document.getElementById('hamburger');
-    function openSidebar() { sidebar.classList.add('open'); backdrop.classList.add('open-backdrop'); burger.setAttribute('aria-expanded','true'); }
-    function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('open-backdrop'); burger.setAttribute('aria-expanded','false'); }
+    function openSidebar(){ sidebar.classList.add('open'); backdrop.classList.add('open-backdrop'); burger.setAttribute('aria-expanded','true'); }
+    function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('open-backdrop'); burger.setAttribute('aria-expanded','false'); }
     burger.addEventListener('click', () => { sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
     backdrop.addEventListener('click', closeSidebar);
 
-    init();
+    // Init
+    (async function(){
+      document.getElementById("year").textContent = new Date().getFullYear();
+      for (const slug of CATEGORIES) { await loadCategory(slug); }
+    })();
   </script>
 </body>
 </html>
