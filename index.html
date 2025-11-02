@@ -10,14 +10,14 @@
       --card:#fff; --shadow:0 6px 22px rgba(0,0,0,.08);
       --radius:18px; --gap:16px; --container:1200px;
       --accent:#b3261e; --accent-weak:#fff1f0;
-      --sidebar-w:330px; --hdr-h:64px; /* mobile header height */
+      --sidebar-w:330px; --hdr-h:64px; /* mobile header */
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     html,body{margin:0;background:var(--bg);color:var(--text);
       font-family:ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.5}
 
-    /* ---------------- Header ---------------- */
+    /* Header */
     header{
       position:sticky; top:0; z-index:20; background:var(--bg);
       border-bottom:1px solid var(--border);
@@ -26,34 +26,39 @@
       height: var(--hdr-h);
       display:flex; align-items:center;
     }
+    /* Mobile auto-hide state */
     header.is-hidden{ transform: translateY(calc(-1 * var(--hdr-h))); box-shadow:none; }
 
-    /* Grid-Container für echte Zentrierung */
-    header .container{
-      max-width:var(--container); margin:0 auto; padding:8px 14px;
-      display:grid; grid-template-columns:44px 1fr 44px; align-items:center; gap:12px;
-    }
-    .hamburger{ grid-column:1; width:44px;height:44px;display:grid;place-items:center;cursor:pointer;border-radius:12px;transition:background .2s ease, transform .2s ease; user-select:none; -webkit-tap-highlight-color:transparent;}
-    .hamburger:hover{ background:#f7f7f7 }
-    .ham-lines{ width:26px; height:18px; position:relative; }
-    .ham-lines span{ position:absolute; left:0; right:0; height:3px; background:#111; border-radius:3px; transition: transform .28s ease, opacity .2s ease, top .28s ease; }
-    .ham-lines span:nth-child(1){ top:0 } .ham-lines span:nth-child(2){ top:7.5px } .ham-lines span:nth-child(3){ top:15px }
-    .sidebar.open ~ header .ham-lines span:nth-child(1){ top:7.5px; transform: rotate(45deg) }
-    .sidebar.open ~ header .ham-lines span:nth-child(2){ opacity:0 }
-    .sidebar.open ~ header .ham-lines span:nth-child(3){ top:7.5px; transform: rotate(-45deg) }
-
-    .logo{ grid-column:2; display:flex; align-items:center; gap:12px; justify-self:center; }
+    .container{max-width:var(--container);margin:0 auto;padding:8px 14px;display:flex;align-items:center;gap:12px}
+    .logo{display:flex;align-items:center;gap:12px}
     .logo img{height:64px;width:auto; transition: transform .2s ease}
     .logo img:active{ transform: scale(.98) }
     @media (min-width:1100px){ .logo img{height:52px} }
     .logo h1{font-size:clamp(16px,2vw,20px);margin:0;font-weight:800;letter-spacing:.2px}
-    .hdr-spacer{ grid-column:3; } /* rechter Spacer für echte Zentrierung */
+
+    /* Fancy hamburger */
+    .hamburger{
+      width:44px;height:44px;display:grid;place-items:center;cursor:pointer; border-radius:12px;
+      transition: background .2s ease, transform .2s ease; user-select:none; -webkit-tap-highlight-color:transparent;
+    }
+    .hamburger:hover{ background:#f7f7f7 }
+    .ham-lines{ width:26px; height:18px; position:relative; }
+    .ham-lines span{
+      position:absolute; left:0; right:0; height:3px; background:#111; border-radius:3px; transition: transform .28s ease, opacity .2s ease, top .28s ease;
+    }
+    .ham-lines span:nth-child(1){ top:0 }
+    .ham-lines span:nth-child(2){ top:7.5px }
+    .ham-lines span:nth-child(3){ top:15px }
+    /* morph to X when sidebar open (mobile) */
+    .sidebar.open ~ header .ham-lines span:nth-child(1){ top:7.5px; transform: rotate(45deg) }
+    .sidebar.open ~ header .ham-lines span:nth-child(2){ opacity:0 }
+    .sidebar.open ~ header .ham-lines span:nth-child(3){ top:7.5px; transform: rotate(-45deg) }
 
     main{max-width:var(--container);margin:0 auto;padding:16px}
     section{padding:24px 0;scroll-margin-top:86px}
     h2{margin:0 0 12px;font-size:clamp(18px,2.2vw,24px);font-weight:800;letter-spacing:.2px}
 
-    /* ---------------- Grid + Bilder ---------------- */
+    /* Grid + Bilder (vollständig anzeigen) */
     .grid{display:grid;gap:var(--gap);grid-template-columns:repeat(auto-fill,minmax(200px,1fr));align-items:start}
     @media (min-width:620px){ .grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))} }
     .card{
@@ -67,28 +72,27 @@
     @media (min-width:900px){ .card img{ max-height:500px } }
     .empty{ color:var(--muted); background:#fafafa; border:1px dashed var(--border); border-radius:12px; padding:14px; text-align:center; grid-column:1/-1 }
 
-    /* ---------------- Sidebar – Mobile Overlay ---------------- */
+    /* Sidebar – Mobile Overlay */
     .sidebar-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; z-index:30; opacity:0; transition: opacity .22s ease }
-    .open-backdrop{ display:block; opacity:1; padding-bottom: env(safe-area-inset-bottom); }
+    .open-backdrop{ display:block; opacity:1 }
     .sidebar{
       position:fixed; inset:0 auto 0 0; width:var(--sidebar-w); max-width:88vw;
       background:#fff; border-right:1px solid var(--border);
       transform:translateX(-100%); transition:transform .28s cubic-bezier(.22,.61,.36,1), box-shadow .28s ease;
       z-index:40; display:flex; flex-direction:column; box-shadow:10px 0 28px rgba(0,0,0,.06);
-      height:100vh;
     }
-    @supports (height: 100dvh){ .sidebar{ height:100dvh } } /* iOS 16+ */
     .sidebar.open{ transform:translateX(0) }
     .sidebar-header{ padding:16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px;
       background:linear-gradient(0deg,#fff 0%,#fff 45%,var(--accent-weak) 45%,var(--accent-weak) 100%) }
     .sidebar-header img{ height:40px }
     .sidebar-header .brand{ font-weight:800; font-size:16px; letter-spacing:.3px }
-    .cat-list{ padding:10px; overflow:auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+    .cat-list{ padding:10px; overflow:auto }
     .cat-list a{
       display:block; padding:14px 14px; margin:8px 0; text-decoration:none; color:#111; border:1px solid var(--border);
       border-radius:12px; background:#fff; font-weight:600;
       transform: translateX(-6px); opacity: 0; animation: itemIn .35s ease forwards;
     }
+    /* Stagger Effekt */
     .cat-list a:nth-child(1){ animation-delay:.02s } .cat-list a:nth-child(2){ animation-delay:.04s }
     .cat-list a:nth-child(3){ animation-delay:.06s } .cat-list a:nth-child(4){ animation-delay:.08s }
     .cat-list a:nth-child(5){ animation-delay:.10s } .cat-list a:nth-child(6){ animation-delay:.12s }
@@ -97,11 +101,12 @@
     .cat-list a:nth-child(11){ animation-delay:.22s } .cat-list a:nth-child(12){ animation-delay:.24s }
     .cat-list a:hover{ background:var(--accent-weak); border-color:#ffd9d6 }
     .cat-list a.active{ background:var(--accent); color:#fff; border-color:var(--accent) }
+
     @keyframes itemIn{ to{ transform:translateX(0); opacity:1 } }
 
     .footer{ border-top:1px solid var(--border); padding:22px 16px; text-align:center; color:var(--muted) }
 
-    /* ---------------- Desktop: echtes 2-Spalten Grid ---------------- */
+    /* Desktop: echtes 2-Spalten Grid, keine Overlay-Sidebar */
     @media (min-width:1100px){
       body{
         display:grid;
@@ -119,13 +124,10 @@
       .hamburger{ display:none }
     }
 
-    /* Reduce Motion */
+    /* Barrierefreiheit */
     @media (prefers-reduced-motion: reduce){
-      *{ animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:0ms!important; scroll-behavior:auto!important }
+      *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: 0ms !important; scroll-behavior: auto !important }
     }
-
-    /* Body scroll lock während Sidebar offen */
-    html.no-scroll, body.no-scroll{ height:100%; overflow:hidden }
   </style>
 </head>
 <body>
@@ -161,14 +163,10 @@
       <div class="hamburger" id="hamburger" aria-label="Menü öffnen" aria-controls="sidebar" aria-expanded="false">
         <div class="ham-lines"><span></span><span></span><span></span></div>
       </div>
-
       <div class="logo">
         <img src="assets/logo.png" alt="Logo">
         <h1>Sajado 1030 &amp; 1070</h1>
       </div>
-
-      <!-- rechter Spacer für perfekte Zentrierung -->
-      <div class="hdr-spacer"></div>
     </div>
   </header>
 
@@ -260,11 +258,12 @@
       for (var k=0;k<secs.length;k++) io.observe(secs[k]);
     }
 
-    // Mobile header auto-hide (unter 1100px)
+    // Mobile header auto-hide (nur unter 1100px)
     function setupHeaderAutoHide(){
       var header = document.getElementById('siteHeader');
       var lastY = window.pageYOffset || document.documentElement.scrollTop;
       var ticking = false;
+
       function onScroll(){
         var y = window.pageYOffset || document.documentElement.scrollTop;
         if (ticking) return;
@@ -276,60 +275,16 @@
           } else {
             header.classList.remove("is-hidden");
           }
-          lastY = y; ticking = false;
+          lastY = y;
+          ticking = false;
         });
         ticking = true;
       }
       window.addEventListener('scroll', onScroll, { passive:true });
     }
 
-    // ---------- Sidebar toggle + Body-Scroll-Lock (iOS freundlich) ----------
-    var sidebar  = document.getElementById('sidebar');
-    var backdrop = document.getElementById('sidebarBackdrop');
-    var burger   = document.getElementById('hamburger');
-    var scrollY  = 0;
-
-    function lockScroll(){
-      scrollY = window.scrollY || window.pageYOffset;
-      document.documentElement.classList.add('no-scroll');
-      document.body.classList.add('no-scroll');
-      document.body.style.position = 'fixed';
-      document.body.style.top = (-scrollY) + 'px';
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.width = '100%';
-    }
-    function unlockScroll(){
-      document.documentElement.classList.remove('no-scroll');
-      document.body.classList.remove('no-scroll');
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
-      window.scrollTo(0, scrollY);
-    }
-    function openSidebar(){
-      sidebar.classList.add('open');
-      backdrop.classList.add('open-backdrop');
-      if (burger) burger.setAttribute('aria-expanded','true');
-      lockScroll();
-    }
-    function closeSidebar(){
-      sidebar.classList.remove('open');
-      backdrop.classList.remove('open-backdrop');
-      if (burger) burger.setAttribute('aria-expanded','false');
-      unlockScroll();
-    }
-    if (burger) burger.addEventListener('click', function(){
-      sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
-    });
-    if (backdrop) backdrop.addEventListener('click', closeSidebar);
-
-    // ---------- Init ----------
     function init(){
       document.getElementById("year").textContent = new Date().getFullYear();
-      // Bilder füllen
       (function fillAll(idx){
         if (idx >= CATEGORIES.length) { setupSidebarLinks(); observeSections(); setupHeaderAutoHide(); return; }
         var slug = CATEGORIES[idx];
@@ -346,6 +301,16 @@
         });
       })(0);
     }
+
+    // Sidebar toggle
+    var sidebar  = document.getElementById('sidebar');
+    var backdrop = document.getElementById('sidebarBackdrop');
+    var burger   = document.getElementById('hamburger');
+    function openSidebar(){ sidebar.classList.add('open'); backdrop.classList.add('open-backdrop'); if (burger) burger.setAttribute('aria-expanded','true'); }
+    function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('open-backdrop'); if (burger) burger.setAttribute('aria-expanded','false'); }
+    if (burger) burger.addEventListener('click', function(){ sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
+    if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
     init();
   </script>
 </body>
